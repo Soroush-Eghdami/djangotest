@@ -1,0 +1,12 @@
+{% extends "admin/_base.html" %}
+{% block content_admin %}
+<div class="container mt-4">
+  <h2>حذف مقاله</h2>
+  <p>آیا مطمئن هستید که می‌خواهید "<strong>{{ object.title }}</strong>" را حذف کنید؟</p>
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">بله، حذف شود</button>
+    <a href="{% url 'blog:list-blog-dashboard' %}" class="btn btn-secondary">انصراف</a>
+  </form>
+</div>
+{% endblock %}

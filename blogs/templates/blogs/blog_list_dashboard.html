@@ -1,0 +1,83 @@
+{% extends "admin/_base.html" %}
+{% load static %}
+
+{% block content_admin %}
+<div class="col-12">
+              <div class="card">
+                <div class="card-body">
+                  <div class="d-md-flex align-items-center">
+                    <div>
+                      <h4 class="card-title">Products Performance</h4>
+                      <p class="card-subtitle">
+                        Ample Admin Vs Pixel Admin
+                      </p>
+                    </div>
+                    <div class="ms-auto mt-3 mt-md-0">
+                      <select class="form-select theme-select border-0" aria-label="Default select example">
+                        <option value="1">March 2025</option>
+                        <option value="2">March 2025</option>
+                        <option value="3">March 2025</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="table-responsive mt-4">
+                    <table class="table mb-0 text-nowrap varient-table align-middle fs-3">
+                      <thead>
+                        <tr>
+                          <th scope="col" class="px-0 text-muted">
+                            Title
+                          </th>
+                          <th scope="col" class="px-0 text-muted">
+                            User
+                          </th>
+
+                          <th scope="col" class="px-0 text-muted text-end">
+                            Category
+                          </th>
+                                                    <th scope="col" class="px-0 text-muted text-end">
+                            Created At
+                          </th>
+                                                                              <th scope="col" class="px-0 text-muted text-end">
+                            Status
+                          </th>
+                                                                                                        <th scope="col" class="px-0 text-muted text-end">
+                             Operation
+                          </th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        {% for blog in blogs %}
+                                                <tr>
+                          <td class="px-0">
+                            <div class="d-flex align-items-center">
+                              <img src="{{blog.img.url}}" class="rounded-circle" width="40" alt="flexy">
+                              <div class="ms-3">
+                                <h6 class="mb-0 fw-bolder">{{blog.title}}</h6>
+                                <span class="text-muted">{{blog.slug}}</span>
+                              </div>
+                            </div>
+                          </td>
+                          <td class="px-0">{{blog.user}}</td>
+                          <td class="px-0 text-dark fw-medium text-end">
+                            {{blog.category.name}}
+                          </td>                          <td class="px-0 text-dark fw-medium text-end">
+                            {{blog.jcreated_at}}
+                          </td>                          <td class="px-0 text-dark fw-medium text-end">
+                            {{blog.status}}
+                          </td>
+                          <td class="px-0 text-dark fw-medium text-end">
+                            <a class='btn btn-warning' href='{% url "blog:update-blog-dashboard" blog.pk %}'>Update</a>
+                            |
+                            <a class='btn btn-danger' href='{% url "blog:delete-blog" blog.pk %}'>Delete</a>
+
+                          </td>
+                        </tr>
+                        {% endfor %}
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+            </div>
+{% endblock content_admin %}
