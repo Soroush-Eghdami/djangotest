@@ -2,7 +2,7 @@ from django.shortcuts import redirect, render
 from django.views import View
 from .forms import RegisterForm, LoginForm, ProfileForm
 from .models import User
-from django.views.generic import CreateView, TemplateView, UpdateView
+from django.views.generic import CreateView, TemplateView, UpdateView, ListView, DeleteView
 
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import get_user_model, logout
@@ -40,6 +40,29 @@ class ProfileUpdateView(UpdateView):
     form_class = ProfileForm
     template_name = "accounts/edit_profile.html"
     success_url = reverse_lazy('accounts:profile')
+    
+    def get_object(self, queryset=None):
+        return self.request.user
+    
+    
+class UserListView(ListView):
+    model = User
+    template_name = "accounts/users_list.html"
+    context_object_name = 'users'
+
+    
+
+class UserDeleteView(DeleteView):
+    model = user
+    template_name = "accounts/users_delete.html"
+    success_url = reverse_lazy('accounts:user-list')
+
+
+class UserUpdateView(UpdateView):
+    model = user
+    form_class = ProfileForm
+    template_name = "accounts/users_update.html"
+    success_url = reverse_lazy('accounts:user-list')
     
     def get_object(self, queryset=None):
         return self.request.user

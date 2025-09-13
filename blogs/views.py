@@ -71,7 +71,7 @@ class BlogDashboardUpdate(UpdateView):
     success_url = reverse_lazy('blog:list-blog-dashboard')
 
 
-class BlogDasboardDelete(DeleteView):
+class BlogDashboardDelete(DeleteView):
     template_name = "./blogs/blog_delete_confirm_dashboard.html"
     model = Blog
     success_url = reverse_lazy('blog:list-blog-dashboard')
@@ -101,7 +101,7 @@ class BlogCategoryDashboardUpdate(UpdateView):
     success_url = reverse_lazy('blog:list-blog-category-dashboard')
 
 
-class BlogCategoryDasboardDelete(DeleteView):
+class BlogCategoryDashboardDelete(DeleteView):
     template_name = "./blogs/blog_delete_category_confirm_dashboard.html"
     model = BlogCategory
     success_url = reverse_lazy('blog:list-blog-category-dashboard')    
