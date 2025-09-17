@@ -1,5 +1,5 @@
 from django.contrib import admin, messages
-from .models import BlogCategory,Blog
+from .models import *
 # Register your models here.
 
 @admin.action(description='active status ...')
@@ -28,4 +28,4 @@ class BlogCategoryAdmin(admin.ModelAdmin):
 
 admin.site.register(BlogCategory, BlogCategoryAdmin)
 admin.site.register(Blog, BlogAdmin)
-
+admin.site.register(CommentBlog)

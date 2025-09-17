@@ -1,10 +1,10 @@
 from pyexpat import model
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.views.generic import TemplateView, ListView, DetailView, CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
 
-from blogs.forms import BlogForm, CategoryForm
-from blogs.models import Blog, BlogCategory
+from blogs.forms import *
+from blogs.models import *
 
 # Create your views here.
 
@@ -15,36 +15,57 @@ class BlogList(ListView):
     template_name = "./blogs/blogs.html"
     model = Blog
     context_object_name = 'blogs'
+    paginate_by = 2
     
+    def get_queryset(self):
+        queryset = super().get_queryset().order_by('-created_at')
+        query = self.request.GET.get('q')
+        if query:
+            queryset = queryset.filter(title__icontains = query) | queryset.filter(content__icontains = query)
+        return queryset
     
 
 class BlogDetail(DetailView):
     model = Blog
-    template_name='./blogs/detail.html'
+    template_name = './blogs/detail.html'
     context_object_name = 'blog'
     
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         blog = self.get_object()
 
-        next_post = Blog.objects.filter(
+        context['next_post'] = Blog.objects.filter(
             created_at__gt=blog.created_at, status=True
         ).order_by('created_at').first()
 
-        previous_post = Blog.objects.filter(
+        context['previous_post'] = Blog.objects.filter(
             created_at__lt=blog.created_at, status=True
         ).order_by('-created_at').first()
-        
-        latest_post = Blog.objects.filter(
-            status = True).order_by('-created_at')[:3]
-        
-        get_all_category = BlogCategory.objects.all()
 
-        context['next_post'] = next_post
-        context['previous_post'] = previous_post
-        context['latest_post'] = latest_post
-        context['get_all_category'] = get_all_category
+        context['latest_post'] = Blog.objects.filter(
+            status=True
+        ).order_by('-created_at')[:3]
+
+        context['get_all_category'] = BlogCategory.objects.all()
+
+        # فرم کامنت
+        context['form'] = CommentForm()
+
         return context
+    
+    def post(self, request, *args, **kwargs): 
+        self.object = self.get_object() 
+        form = CommentForm(request.POST) 
+        if form.is_valid(): 
+            comment = form.save(commit=False) 
+            comment.blog = self.object 
+            comment.user = request.user   # نیازمند login
+            comment.save() 
+            return redirect("blog:detail-blog", pk=self.object.pk, slug=self.object.slug) 
+        context = self.get_context_data() 
+        context["form"] = form 
+        return self.render_to_response(context)
+
 
 
     

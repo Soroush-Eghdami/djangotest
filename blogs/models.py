@@ -36,3 +36,13 @@ class Blog(models.Model):
     def jcreated_at(self):  
         return jalali_converter(self.created_at)
     
+
+class CommentBlog(models.Model):
+    blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
+    user = models.ForeignKey(Users, on_delete=models.CASCADE, related_name='author')
+    
+    content = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return f'{self.user} | {self.blog.title[:10]}'
