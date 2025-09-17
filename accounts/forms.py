@@ -55,5 +55,22 @@ class ProfileForm(forms.ModelForm):
             'class': 'form-control'
         })
 
-        
-        
+
+
+class CustomUser(forms.ModelForm):
+    class Meta:
+        model = User
+        exclude = ['created_at', 'updated_at']
+        widgets = {
+            'first_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-control'}),
+            'username': forms.TextInput(attrs={'class': 'form-control'}),
+            'email': forms.EmailInput(attrs={'class': 'form-control'}),
+            'phone_number': forms.TextInput(attrs={'class': 'form-control'}),
+            'profile_pic': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+            'birth_date': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'YYYY-MM-DD'}),
+            'is_owner': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_superuser': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_staff': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+            'is_active': forms.CheckboxInput(attrs={'class': 'form-check-input'}),
+        }

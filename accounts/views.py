@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from django.views import View
-from .forms import RegisterForm, LoginForm, ProfileForm
+from .forms import *
 from .models import User
 from django.views.generic import CreateView, TemplateView, UpdateView, ListView, DeleteView
 
@@ -62,4 +62,11 @@ class UserUpdateView(UpdateView):
     model = user
     form_class = ProfileForm
     template_name = "accounts/users_update.html"
+    success_url = reverse_lazy('accounts:users-list')
+    
+
+class UserCustomCreateView(CreateView):
+    model = User
+    form_class = CustomUser
+    template_name = 'accounts/custom_user_create.html'
     success_url = reverse_lazy('accounts:users-list')
