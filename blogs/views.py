@@ -79,6 +79,7 @@ class BlogDashboardCreate(CreateView):
     model = Blog
     form_class = BlogForm
     success_url = reverse_lazy('blog:list-blog-dashboard')
+    permission_required = 'blogs.add_blog'
     
     def form_valid(self, form):
         form.instance.user = self.request.user
@@ -90,12 +91,14 @@ class BlogDashboardUpdate(UpdateView):
     model = Blog
     form_class = BlogForm
     success_url = reverse_lazy('blog:list-blog-dashboard')
+    permission_required = 'blogs.change_blog'
 
 
 class BlogDashboardDelete(DeleteView):
     template_name = "./blogs/blog_delete_confirm_dashboard.html"
     model = Blog
     success_url = reverse_lazy('blog:list-blog-dashboard')
+    permission_required = 'blogs.delete_blog'
     
     
 class BlogCategoryDashboardList(ListView):

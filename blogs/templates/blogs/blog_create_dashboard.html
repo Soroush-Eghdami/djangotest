@@ -2,6 +2,8 @@
 {% load static %}
 {% block content_admin %}
 
+{% if user.is_authenticated %}
+{% if user == object.auther or user.grpoups.all.0.name in 'Editors' %}
 <div class="card">
   <div class="card-body">
     <h5 class="card-title fw-semibold mb-4">Create Blog</h5>
@@ -72,5 +74,10 @@
     </div>
   </div>
 </div>
-
+{% else %}
+  <div class="alert alert-danger" role="alert">
+    You do not have permission to create a blog.
+  </div>
+{% endif %}
+{% endif %}
 {% endblock content_admin %}
